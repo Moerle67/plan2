@@ -86,3 +86,25 @@ class Lernbaustein(models.Model):
 
     def get_absolute_url(self):
         return reverse("Lernbaustein_detail", kwargs={"pk": self.pk})
+class Sequenz(models.Model):
+    name = models.CharField("Name", max_length=50)
+    bemerkung = models.TextField("Eräuterungen")
+    lernbausteine = models.ManyToManyField(Lernbaustein, verbose_name="Lernbausteine") 
+    stunden = models.IntegerField("Geplante Stunden")
+
+    class Meta:
+        verbose_name = "Sequenz"
+        verbose_name_plural = "Sequenzen"
+
+    def __str__(self):
+        # string = self.lernbausteine.all().values_list("lernfeld").join(", ")
+        string = ""
+        ds = self.lernbausteine.all()
+        for element in ds:
+            string += str(element.lernfeld) +", "
+        if len(string)>1:
+            string = string[:-2]
+        return f"{self.name}/{self.stunden} Stunden, {string}"
+
+    def get_absolute_url(self):
+        return reverse("Sequenz_detail", kwargs={"pk": self.pk})

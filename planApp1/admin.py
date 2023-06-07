@@ -13,3 +13,5 @@ class LernbausteinAdmin(admin.ModelAdmin):
     # list_display = ['name']
     list_filter = ['lernfeld__berufe__abteilung', 'lernfeld__berufe', 'schlagwoerter'] 
     search_fields = ['beschreibung']
+
+admin.site.register(Sequenz)
