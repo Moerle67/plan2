@@ -7,6 +7,7 @@ admin.site.register(Abteilung)
 admin.site.register(Ausbildungsberuf)
 admin.site.register(Lernfeld)
 admin.site.register(Schlagwort)
+admin.site.register(Mitarbeiter)
 #admin.site.register(Lernbaustein)
 @admin.register(Lernbaustein)
 class LernbausteinAdmin(admin.ModelAdmin):
@@ -14,4 +15,7 @@ class LernbausteinAdmin(admin.ModelAdmin):
     list_filter = ['lernfeld__berufe__abteilung', 'lernfeld__berufe', 'schlagwoerter'] 
     search_fields = ['beschreibung']
 
-admin.site.register(Sequenz)
+#admin.site.register(Sequenz)
+@admin.register(Sequenz)
+class SequenzAdmin(admin.ModelAdmin):
+    filter_vertical = ['lernbausteine']

@@ -1,6 +1,20 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
+class Mitarbeiter(models.Model):
+    name = models.CharField("Name", max_length=100)
+    kuerzel = models.CharField("Kürzel", max_length=10, primary_key=True)   
+
+    class Meta:
+        verbose_name = "Mitarbeiter"
+        verbose_name_plural = "Mitarbeiter"
+
+    def __str__(self):
+        return f"{self.kuerzel} - {self.name}"
+
+    def get_absolute_url(self):
+        return reverse("Mitarbeiter_detail", kwargs={"pk": self.pk})
 
 class Abteilung(models.Model):
     name = models.CharField(verbose_name="Abteilung", max_length=50)
@@ -86,11 +100,13 @@ class Lernbaustein(models.Model):
 
     def get_absolute_url(self):
         return reverse("Lernbaustein_detail", kwargs={"pk": self.pk})
+    
 class Sequenz(models.Model):
     name = models.CharField("Name", max_length=50)
     bemerkung = models.TextField("Eräuterungen")
     lernbausteine = models.ManyToManyField(Lernbaustein, verbose_name="Lernbausteine") 
     stunden = models.IntegerField("Geplante Stunden")
+    mitarbeiter = models.ForeignKey(Mitarbeiter, verbose_name="Mitarbeiter", on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = "Sequenz"
